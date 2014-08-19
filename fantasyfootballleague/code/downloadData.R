@@ -23,10 +23,13 @@ allplayerdata <- data.frame(matrix(NA,nrow=1,ncol=numCols))
 allplayerdata <- allplayerdata[-1,]
 
 for (i in 1:567) {
-    jsondata <- fromJSON(paste0(url,i))
-    jsondata <- jsondata[which(names(jsondata) %in% relevantFields)]
+    res <- try(jsondata <- fromJSON(paste0(url,i)))
+    if(!inherits(res, "try-error")) {
         
-    if(i == 1) names(allplayerdata) <- names(jsondata)
-    
-    allplayerdata <- rbind(allplayerdata, as.data.frame(jsondata))
+        jsondata <- jsondata[which(names(jsondata) %in% relevantFields)]
+        
+        if(i == 1) names(allplayerdata) <- names(jsondata)
+        
+        allplayerdata <- rbind(allplayerdata, as.data.frame(jsondata))
+    }
 }
