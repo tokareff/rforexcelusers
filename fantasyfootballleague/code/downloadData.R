@@ -1,9 +1,8 @@
 require(jsonlite)
-require(dplyr)
 
 url <- "http://fantasy.premierleague.com/web/api/elements/"
 
-nonRelevantFields <- c("event_explain","photo","fixture_history","season_history","fixtures")
+#nonRelevantFields <- c("event_explain","photo","fixture_history","season_history","fixtures")
 
 relevantFields <- c("points_per_game","total_points","type_name",
                     "team_name","team_code","team_id",
@@ -22,14 +21,17 @@ numCols = length(relevantFields)
 allplayerdata <- data.frame(matrix(NA,nrow=1,ncol=numCols))
 allplayerdata <- allplayerdata[-1,]
 
-for (i in 1:567) {
+fetchData <- function(i) {
+                
     res <- try(jsondata <- fromJSON(paste0(url,i)))
+                
     if(!inherits(res, "try-error")) {
-        
+                    
         jsondata <- jsondata[which(names(jsondata) %in% relevantFields)]
-        
-        if(i == 1) names(allplayerdata) <- names(jsondata)
-        
-        allplayerdata <- rbind(allplayerdata, as.data.frame(jsondata))
     }
 }
+
+allplayerdata <- lapply(1:567, fetchData)
+allplayerdata <- do.call(rbind,allplayerdata)
+
+allplayerdata <- as.data.frame(allplayerdata)
