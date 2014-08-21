@@ -28,10 +28,13 @@ fetchData <- function(i) {
     if(!inherits(res, "try-error")) {
                     
         jsondata <- jsondata[which(names(jsondata) %in% relevantFields)]
+        #jsondata
     }
 }
 
 allplayerdata <- lapply(1:567, fetchData)
-allplayerdata <- do.call(rbind,allplayerdata)
+allplayerdata <- do.call(rbind, lapply(allplayerdata, 
+                                      data.frame, 
+                                      stringsAsFactors=FALSE))
 
-allplayerdata <- as.data.frame(allplayerdata)
+#allplayerdata <- as.data.frame(allplayerdata)
