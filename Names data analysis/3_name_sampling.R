@@ -25,7 +25,7 @@ sample_is_duplicated = function(size_val) {
 }
 
 
-## run sapply 1000 times.  
+## run sapply 1000 times.  sapply runs the sample_is_duplicated function for values 1:100
 x = replicate(n = 1000, sapply(X = 1:100, FUN = sample_is_duplicated))
 probabilities = apply(x, 1, mean)
 
