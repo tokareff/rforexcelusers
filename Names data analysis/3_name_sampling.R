@@ -48,6 +48,7 @@ sapply(X = 1:100, FUN = sample_is_duplicated)
 x = replicate(n = 1000, sapply(X = 1:100, FUN = sample_is_duplicated))
 probabilities = apply(x, 1, mean)
 
+
 ## plot result
 plot(probabilities, type="l", 
      xlab = "Sample Size", ylab = "Probability of Duplicate",
@@ -75,9 +76,9 @@ hist(sample_100,
 
 
 ## disregard
-# stats_2013 = data.frame(num = 1:100, allBoys = probabilities)
-# stats_2013 = cbind(stats_2013, data.frame(Coed = probabilities))
-# 
+stats_2013 = data.frame(num = 1:100, allGirls = probabilities)
+stats_2013 = cbind(stats_2013, data.frame(allBoys = probabilities))
+
 # plot(gvisLineChart(stats_2013, xvar = "num", yvar = c("allBoys","allGirls","Coed"),
 #      options = list(width=450, height=350,
 #                     title = "Probability of duplicate names",
